@@ -203,17 +203,9 @@ function vsp_frontend_assets() {
     // Font Awesome
     wp_enqueue_style('vsp-fontawesome', VSP_FA_URL, array(), '6.5.1');
     
-    // Swiper CSS
+    // Swiper CSS & JS
     wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
-    
-    // Plugin CSS - Loaded always for now to solve the "not connected" issue
-    wp_enqueue_style('vsp-style', VSP_PLUGIN_URL . 'public/css/spotlight-style.css', array('swiper-css', 'vsp-fontawesome'), VSP_VERSION);
-    
-    // Swiper JS
-    wp_register_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
-    
-    // Plugin JS
-    wp_register_script('vsp-script', VSP_PLUGIN_URL . 'public/js/spotlight-script.js', array('swiper-js'), VSP_VERSION, true);
+    wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
 }
 add_action('wp_enqueue_scripts', 'vsp_frontend_assets', 20); // Higher priority
 
@@ -230,15 +222,13 @@ function vsp_shortcode($atts) {
         'order'    => 'DESC',
     ), $atts, 'volunteer_spotlight');
 
-    // Enqueue scripts
-    wp_enqueue_script('swiper-js');
-    wp_enqueue_script('vsp-script');
-
-    // Pass settings to JS
-    wp_localize_script('vsp-script', 'vspSettings', array(
+    // No extra enqueues needed, we will inline
+    
+    // Pass settings to JS (we'll use this in our inlined script)
+    $settings = array(
         'autoplay' => $atts['autoplay'] === 'true',
         'speed'    => intval($atts['speed']),
-    ));
+    );
 
     // Query spotlights
     $query = new WP_Query(array(
@@ -254,6 +244,11 @@ function vsp_shortcode($atts) {
     }
 
     ob_start();
+    
+    // Inline the CSS
+    echo '<style>';
+    include VSP_PLUGIN_DIR . 'public/css/spotlight-style.css';
+    echo '</style>';
     ?>
     <div class="vsp-slider-wrapper">
         <div class="swiper vsp-swiper">
@@ -323,6 +318,15 @@ function vsp_shortcode($atts) {
             </div>
         </div>
     </div>
+    <?php
+    // Inline the JS
+    ?>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const vspSettings = <?php echo json_encode($settings); ?>;
+            <?php include VSP_PLUGIN_DIR . 'public/js/spotlight-script.js'; ?>
+        });
+    </script>
     <?php
     wp_reset_postdata();
     return ob_get_clean();
