@@ -5,7 +5,7 @@ Designer: Muhammad Mehdi
 Tags: volunteer, spotlight, slider, shortcode, nonprofit
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 1.0.0
+Stable tag: 1.2.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -60,6 +60,12 @@ Yes! Use the shortcode `[volunteer_spotlight]` on as many pages as you like.
 Use the speed attribute: `[volunteer_spotlight speed="6000"]` (value in milliseconds).
 
 == Changelog ==
+
+= 1.2.0 =
+* Replaced emojis and SVG icons with Font Awesome
+* Improved CSS enqueuing and priority
+* Fixed plugin structure for easier activation
+* Minor UI and layout improvements
 
 = 1.0.0 =
 * Initial release

@@ -3,7 +3,7 @@
  * Plugin Name: Volunteer Spotlight
  * Plugin URI: https://smysolutions.us/
  * Description: Showcase your amazing volunteers with beautiful spotlight cards displayed in a slider. Use shortcode [volunteer_spotlight] to display.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Muhammad Mehdi
  * License: GPL v2 or later
  * Text Domain: volunteer-spotlight
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('VSP_VERSION', '1.0.0');
+define('VSP_VERSION', '1.2.0');
 define('VSP_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('VSP_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('VSP_FA_URL', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
@@ -201,18 +201,21 @@ add_action('admin_enqueue_scripts', 'vsp_admin_styles');
  */
 function vsp_frontend_assets() {
     // Font Awesome
-    wp_register_style('vsp-fontawesome', VSP_FA_URL, array(), '6.5.1');
+    wp_enqueue_style('vsp-fontawesome', VSP_FA_URL, array(), '6.5.1');
+    
     // Swiper CSS
-    wp_register_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
-    // Plugin CSS
-    wp_register_style('vsp-style', VSP_PLUGIN_URL . 'public/css/spotlight-style.css', array('swiper-css', 'vsp-fontawesome'), VSP_VERSION);
+    wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
+    
+    // Plugin CSS - Loaded always for now to solve the "not connected" issue
+    wp_enqueue_style('vsp-style', VSP_PLUGIN_URL . 'public/css/spotlight-style.css', array('swiper-css', 'vsp-fontawesome'), VSP_VERSION);
     
     // Swiper JS
     wp_register_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
+    
     // Plugin JS
     wp_register_script('vsp-script', VSP_PLUGIN_URL . 'public/js/spotlight-script.js', array('swiper-js'), VSP_VERSION, true);
 }
-add_action('wp_enqueue_scripts', 'vsp_frontend_assets');
+add_action('wp_enqueue_scripts', 'vsp_frontend_assets', 20); // Higher priority
 
 /**
  * ========================================
@@ -227,10 +230,7 @@ function vsp_shortcode($atts) {
         'order'    => 'DESC',
     ), $atts, 'volunteer_spotlight');
 
-    // Enqueue assets only when shortcode is used
-    wp_enqueue_style('vsp-fontawesome');
-    wp_enqueue_style('swiper-css');
-    wp_enqueue_style('vsp-style');
+    // Enqueue scripts
     wp_enqueue_script('swiper-js');
     wp_enqueue_script('vsp-script');
 

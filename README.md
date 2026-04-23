@@ -3,7 +3,7 @@
 ![WordPress](https://img.shields.io/badge/WordPress-5.0%2B-blue?logo=wordpress)
 ![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple?logo=php)
 ![License](https://img.shields.io/badge/License-GPLv2-green)
-![Version](https://img.shields.io/badge/Version-1.0.0-red)
+![Version](https://img.shields.io/badge/Version-1.2.0-red)
 
 **Showcase your amazing volunteers with beautiful, professional spotlight cards displayed in a responsive slider.**
 
@@ -136,6 +136,12 @@ volunteer-spotlight/
 ---
 
 ## 📝 Changelog
+
+### v1.2.0
+- Replaced heart & star emojis with high-quality Font Awesome icons
+- Fixed CSS enqueuing priority to prevent theme overrides
+- Flattened ZIP structure for better WordPress compatibility
+- Improved card layout and responsive refinements
 
 ### v1.0.0 — Initial Release
 - Custom Post Type for volunteer spotlights
