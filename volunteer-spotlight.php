@@ -1,11 +1,10 @@
 <?php
 /**
  * Plugin Name: Volunteer Spotlight
- * Plugin URI: https://brooklynemerge.com
+ * Plugin URI: https://smysolutions.us/
  * Description: Showcase your amazing volunteers with beautiful spotlight cards displayed in a slider. Use shortcode [volunteer_spotlight] to display.
  * Version: 1.0.0
  * Author: Muhammad Mehdi
- * Author URI: https://smysolutions.us/
  * License: GPL v2 or later
  * Text Domain: volunteer-spotlight
  */
