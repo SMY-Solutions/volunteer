@@ -18,6 +18,7 @@ if (!defined('ABSPATH')) {
 define('VSP_VERSION', '1.0.0');
 define('VSP_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('VSP_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('VSP_FA_URL', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
 
 /**
  * ========================================
@@ -104,8 +105,8 @@ function vsp_details_callback($post) {
         </div>
 
         <div class="vsp-field-group" style="margin-top: 20px; padding: 15px; background: #f0f0f1; border-radius: 8px;">
-            <p><strong>📸 Photo:</strong> Use the <em>"Set featured image"</em> option in the right sidebar to upload the volunteer's photo.</p>
-            <p><strong>📝 Name:</strong> Use the <em>"Title"</em> field above for the volunteer's name.</p>
+            <p><strong><i class="fa-solid fa-image"></i> Photo:</strong> Use the <em>"Set featured image"</em> option in the right sidebar to upload the volunteer's photo.</p>
+            <p><strong><i class="fa-solid fa-user-tag"></i> Name:</strong> Use the <em>"Title"</em> field above for the volunteer's name.</p>
         </div>
 
         <div class="vsp-field-group" style="margin-top: 20px; padding: 15px; background: #fef3f3; border-left: 4px solid #e53935; border-radius: 4px;">
@@ -187,6 +188,7 @@ add_action('manage_volunteer_spotlight_posts_custom_column', 'vsp_custom_column_
 function vsp_admin_styles($hook) {
     global $post_type;
     if ($post_type === 'volunteer_spotlight') {
+        wp_enqueue_style('vsp-fontawesome', VSP_FA_URL, array(), '6.5.1');
         wp_enqueue_style('vsp-admin-style', VSP_PLUGIN_URL . 'admin/css/admin-style.css', array(), VSP_VERSION);
     }
 }
@@ -198,10 +200,13 @@ add_action('admin_enqueue_scripts', 'vsp_admin_styles');
  * ========================================
  */
 function vsp_frontend_assets() {
+    // Font Awesome
+    wp_register_style('vsp-fontawesome', VSP_FA_URL, array(), '6.5.1');
     // Swiper CSS
     wp_register_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
     // Plugin CSS
-    wp_register_style('vsp-style', VSP_PLUGIN_URL . 'public/css/spotlight-style.css', array('swiper-css'), VSP_VERSION);
+    wp_register_style('vsp-style', VSP_PLUGIN_URL . 'public/css/spotlight-style.css', array('swiper-css', 'vsp-fontawesome'), VSP_VERSION);
+    
     // Swiper JS
     wp_register_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
     // Plugin JS
@@ -223,6 +228,7 @@ function vsp_shortcode($atts) {
     ), $atts, 'volunteer_spotlight');
 
     // Enqueue assets only when shortcode is used
+    wp_enqueue_style('vsp-fontawesome');
     wp_enqueue_style('swiper-css');
     wp_enqueue_style('vsp-style');
     wp_enqueue_script('swiper-js');
@@ -278,16 +284,14 @@ function vsp_shortcode($atts) {
                                 <?php endif; ?>
                                 <!-- Heart icon overlay -->
                                 <div class="vsp-heart-icon">
-                                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                                    </svg>
+                                    <i class="fa-solid fa-heart"></i>
                                 </div>
                             </div>
 
                             <!-- Content Side -->
                             <div class="vsp-card-content">
                                 <div class="vsp-badge">
-                                    <span class="vsp-badge-star">★</span>
+                                    <span class="vsp-badge-star"><i class="fa-solid fa-star"></i></span>
                                     <span>Volunteer Spotlight</span>
                                 </div>
 
