@@ -7,7 +7,7 @@
 
 **Showcase your amazing volunteers with beautiful, professional spotlight cards displayed in a responsive slider.**
 
-Built for [Brooklyn Emerge](https://brooklynemerge.org) — a community-focused nonprofit organization.
+Built for [Brooklyn Emerge](https://brooklynemerge.com) — a community-focused nonprofit organization.
 
 ---
 
