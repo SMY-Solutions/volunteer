@@ -1,5 +1,7 @@
 === Volunteer Spotlight ===
-Contributors: brooklynemerge
+Contributors: Muhammad Mehdi
+Developer: Muhammad Mehdi
+Designer: Muhammad Mehdi
 Tags: volunteer, spotlight, slider, shortcode, nonprofit
 Requires at least: 5.0
 Tested up to: 6.7
