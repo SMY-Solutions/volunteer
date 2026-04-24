@@ -203,11 +203,14 @@ function vsp_frontend_assets() {
     // Font Awesome
     wp_enqueue_style('vsp-fontawesome', VSP_FA_URL, array(), '6.5.1');
     
+    // Plugin stylesheet (proper enqueue as fallback)
+    wp_enqueue_style('vsp-style', VSP_PLUGIN_URL . 'public/css/spotlight-style.css', array(), VSP_VERSION);
+
     // Swiper CSS & JS
     wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
     wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
 }
-add_action('wp_enqueue_scripts', 'vsp_frontend_assets', 20); // Higher priority
+add_action('wp_enqueue_scripts', 'vsp_frontend_assets', 20);
 
 /**
  * ========================================
@@ -245,10 +248,11 @@ function vsp_shortcode($atts) {
 
     ob_start();
     
-    // Inline the CSS
-    echo '<style>';
-    include VSP_PLUGIN_DIR . 'public/css/spotlight-style.css';
-    echo '</style>';
+    // Inline the CSS using file_get_contents (reliable, unlike PHP include)
+    $css_file = VSP_PLUGIN_DIR . 'public/css/spotlight-style.css';
+    if (file_exists($css_file)) {
+        echo '<style id="vsp-inline-styles">' . file_get_contents($css_file) . '</style>';  // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+    }
     ?>
     <div class="vsp-slider-wrapper">
         <div class="swiper vsp-swiper">
@@ -319,13 +323,16 @@ function vsp_shortcode($atts) {
         </div>
     </div>
     <?php
-    // Inline the JS
+    // Inline the JS — note: spotlight-script.js already has its own DOMContentLoaded wrapper
+    $js_file = VSP_PLUGIN_DIR . 'public/js/spotlight-script.js';
     ?>
     <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-            const vspSettings = <?php echo json_encode($settings); ?>;
-            <?php include VSP_PLUGIN_DIR . 'public/js/spotlight-script.js'; ?>
-        });
+        window.vspSettings = <?php echo json_encode($settings); ?>;
+        <?php
+        if (file_exists($js_file)) {
+            echo file_get_contents($js_file); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+        }
+        ?>
     </script>
     <?php
     wp_reset_postdata();
