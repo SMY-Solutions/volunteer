@@ -5,8 +5,8 @@
  * Description: Showcase your amazing volunteers with beautiful spotlight cards displayed in a slider. Use shortcode [volunteer_spotlight] to display.
  * Version: 1.4.0
  * Author: Muhammad Mehdi
- * License: GPL v2 or later
- * Text Domain: volunteer-spotlight
+ * License: MIT
+ * License URI: https://opensource.org/licenses/MIT
  */
 
 // Prevent direct access

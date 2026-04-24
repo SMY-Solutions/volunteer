@@ -2,7 +2,7 @@
 
 ![WordPress](https://img.shields.io/badge/WordPress-5.0%2B-blue?logo=wordpress)
 ![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple?logo=php)
-![License](https://img.shields.io/badge/License-GPLv2-green)
+![License](https://img.shields.io/badge/License-MIT-green)
 ![Version](https://img.shields.io/badge/Version-1.4.0-red)
 
 **Showcase your amazing volunteers with beautiful, professional spotlight cards displayed in a responsive slider.**
@@ -183,7 +183,9 @@ volunteer-spotlight/
 
 ## 📄 License
 
-This plugin is licensed under the [GNU General Public License v2.0](https://www.gnu.org/licenses/gpl-2.0.html) or later.
+This plugin is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+You are free to **use, modify, and distribute** this plugin, provided that the original copyright notice and credit to **Muhammad Mehdi / SMY Solutions** is included in all copies or substantial portions of the software.
 
 ---
 
