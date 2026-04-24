@@ -223,7 +223,7 @@ add_action('wp_enqueue_scripts', 'vsp_frontend_assets', 20);
  */
 function vsp_get_inline_css() {
     return '
-:root{--vsp-red:#E53935;--vsp-red-dark:#C62828;--vsp-red-light:#FFEBEE;--vsp-white:#FFFFFF;--vsp-gray-light:#F5F5F5;--vsp-gray:#757575;--vsp-dark:#212121;--vsp-card-radius:16px;--vsp-shadow:0 8px 30px rgba(0,0,0,.08);--vsp-shadow-hover:0 12px 40px rgba(0,0,0,.12);--vsp-font:"Segoe UI",-apple-system,BlinkMacSystemFont,sans-serif}
+:root{--vsp-red:#E53935;--vsp-red-dark:#C62828;--vsp-red-light:#FFEBEE;--vsp-white:#FFFFFF;--vsp-gray-light:#F5F5F5;--vsp-gray:#757575;--vsp-dark:#212121;--vsp-card-radius:16px;--vsp-shadow:0 10px 40px rgba(0,0,0,.12);--vsp-shadow-hover:0 20px 60px rgba(0,0,0,.2);--vsp-font:"Segoe UI",-apple-system,BlinkMacSystemFont,sans-serif}
 .vsp-slider-wrapper{max-width:1200px;margin:40px auto;padding:20px 10px;font-family:var(--vsp-font)}
 .vsp-swiper{padding-bottom:60px!important;overflow:hidden}
 .vsp-card{position:relative;background:var(--vsp-white);border-radius:var(--vsp-card-radius);box-shadow:var(--vsp-shadow);overflow:hidden;transition:box-shadow .3s ease,transform .3s ease}
@@ -233,7 +233,7 @@ function vsp_get_inline_css() {
 .vsp-decor-triangle{position:absolute;bottom:0;right:0;width:120px;height:120px;z-index:1;overflow:hidden}
 .vsp-decor-triangle::before{content:"";position:absolute;bottom:-30px;right:-30px;width:120px;height:120px;border:3px solid var(--vsp-red-light);transform:rotate(45deg);opacity:.5}
 .vsp-decor-triangle::after{content:"";position:absolute;bottom:-15px;right:-15px;width:90px;height:90px;border:3px solid var(--vsp-red-light);transform:rotate(45deg);opacity:.3}
-.vsp-card-photo{position:relative;flex:0 0 45%!important;max-width:45%!important;overflow:hidden;min-height:300px}
+.vsp-card-photo{position:relative;flex:0 0 45%!important;max-width:45%!important;overflow:hidden;min-height:300px;border-radius:var(--vsp-card-radius) 0 0 var(--vsp-card-radius)}
 .vsp-card-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
 .vsp-card:hover .vsp-card-photo img{transform:scale(1.05)}
 .vsp-photo-placeholder{width:100%;height:100%;min-height:300px;display:flex;align-items:center;justify-content:center;background:var(--vsp-gray-light);color:#ccc}
@@ -394,7 +394,7 @@ function vsp_shortcode($atts) {
                                     </div>
                                 <?php endif; ?>
 
-                                <a href="#" class="vsp-read-more" onclick="return false;">Read More</a>
+                                <a href="<?php echo esc_url(get_permalink()); ?>" class="vsp-read-more">Read More</a>
                             </div>
                         </div>
                     </div>
