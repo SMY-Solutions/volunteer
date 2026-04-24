@@ -79,6 +79,13 @@ function vsp_details_callback($post) {
 
     $designation = get_post_meta($post->ID, '_vsp_designation', true);
     $description = get_post_meta($post->ID, '_vsp_description', true);
+
+    // Social profiles
+    $social_facebook  = get_post_meta($post->ID, '_vsp_social_facebook',  true);
+    $social_instagram = get_post_meta($post->ID, '_vsp_social_instagram', true);
+    $social_twitter   = get_post_meta($post->ID, '_vsp_social_twitter',   true);
+    $social_linkedin  = get_post_meta($post->ID, '_vsp_social_linkedin',  true);
+    $social_youtube   = get_post_meta($post->ID, '_vsp_social_youtube',   true);
     ?>
     <div class="vsp-admin-fields">
         <div class="vsp-field-group">
@@ -102,6 +109,33 @@ function vsp_details_callback($post) {
             ));
             ?>
             <p class="description">A short description or quote about the volunteer's contributions.</p>
+        </div>
+
+        <div class="vsp-field-group" style="margin-top: 20px;">
+            <label><strong><i class="fa-solid fa-share-nodes"></i> Social Profiles</strong></label>
+            <p class="description" style="margin-bottom:10px;">Add the volunteer's social profile URLs. Social icons will appear on the spotlight card for any accounts you fill in.</p>
+            <table class="form-table" style="margin:0;">
+                <tr>
+                    <th style="width:140px;padding:6px 0;"><i class="fa-brands fa-facebook" style="color:#1877F2;margin-right:6px;"></i>Facebook</th>
+                    <td style="padding:6px 0;"><input type="url" name="vsp_social_facebook" value="<?php echo esc_attr($social_facebook); ?>" placeholder="https://facebook.com/username" class="widefat" /></td>
+                </tr>
+                <tr>
+                    <th style="padding:6px 0;"><i class="fa-brands fa-instagram" style="color:#E1306C;margin-right:6px;"></i>Instagram</th>
+                    <td style="padding:6px 0;"><input type="url" name="vsp_social_instagram" value="<?php echo esc_attr($social_instagram); ?>" placeholder="https://instagram.com/username" class="widefat" /></td>
+                </tr>
+                <tr>
+                    <th style="padding:6px 0;"><i class="fa-brands fa-x-twitter" style="color:#000;margin-right:6px;"></i>X / Twitter</th>
+                    <td style="padding:6px 0;"><input type="url" name="vsp_social_twitter" value="<?php echo esc_attr($social_twitter); ?>" placeholder="https://x.com/username" class="widefat" /></td>
+                </tr>
+                <tr>
+                    <th style="padding:6px 0;"><i class="fa-brands fa-linkedin" style="color:#0A66C2;margin-right:6px;"></i>LinkedIn</th>
+                    <td style="padding:6px 0;"><input type="url" name="vsp_social_linkedin" value="<?php echo esc_attr($social_linkedin); ?>" placeholder="https://linkedin.com/in/username" class="widefat" /></td>
+                </tr>
+                <tr>
+                    <th style="padding:6px 0;"><i class="fa-brands fa-youtube" style="color:#FF0000;margin-right:6px;"></i>YouTube</th>
+                    <td style="padding:6px 0;"><input type="url" name="vsp_social_youtube" value="<?php echo esc_attr($social_youtube); ?>" placeholder="https://youtube.com/@channel" class="widefat" /></td>
+                </tr>
+            </table>
         </div>
 
         <div class="vsp-field-group" style="margin-top: 20px; padding: 15px; background: #f0f0f1; border-radius: 8px;">
@@ -144,6 +178,15 @@ function vsp_save_meta($post_id) {
     // Save description
     if (isset($_POST['vsp_description'])) {
         update_post_meta($post_id, '_vsp_description', wp_kses_post($_POST['vsp_description']));
+    }
+
+    // Save social profiles
+    $social_fields = array('vsp_social_facebook', 'vsp_social_instagram', 'vsp_social_twitter', 'vsp_social_linkedin', 'vsp_social_youtube');
+    foreach ($social_fields as $field) {
+        $meta_key = '_' . $field;
+        if (isset($_POST[$field])) {
+            update_post_meta($post_id, $meta_key, esc_url_raw($_POST[$field]));
+        }
     }
 }
 add_action('save_post_volunteer_spotlight', 'vsp_save_meta');
@@ -247,10 +290,14 @@ function vsp_get_inline_css() {
 .vsp-designation{font-size:16px;font-weight:600;color:var(--vsp-red)!important;margin:0 0 16px!important;letter-spacing:.2px}
 .vsp-description{font-size:14px;line-height:1.7;color:var(--vsp-gray);margin-bottom:20px;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
 .vsp-description p{margin:0 0 8px}
-.vsp-read-more{display:inline-flex!important;align-items:center;gap:6px;background:var(--vsp-red)!important;color:var(--vsp-white)!important;padding:10px 24px!important;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none!important;width:fit-content;transition:all .3s ease;cursor:pointer;border:2px solid var(--vsp-red)}
-.vsp-read-more:hover{background:var(--vsp-red-dark)!important;border-color:var(--vsp-red-dark);transform:translateX(4px);color:var(--vsp-white)!important;text-decoration:none!important}
-.vsp-read-more::after{content:"→";transition:transform .3s ease}
-.vsp-read-more:hover::after{transform:translateX(4px)}
+.vsp-social-links{display:flex!important;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap}
+.vsp-social-icon{display:inline-flex!important;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:#f5f5f5;color:#555!important;font-size:16px;text-decoration:none!important;transition:all .3s ease;border:2px solid transparent}
+.vsp-social-icon:hover{transform:translateY(-3px);text-decoration:none!important;color:#fff!important}
+.vsp-social-facebook:hover{background:#1877F2!important;border-color:#1877F2;color:#fff!important}
+.vsp-social-instagram:hover{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285AEB 90%)!important;border-color:#d6249f;color:#fff!important}
+.vsp-social-twitter:hover{background:#000!important;border-color:#000;color:#fff!important}
+.vsp-social-linkedin:hover{background:#0A66C2!important;border-color:#0A66C2;color:#fff!important}
+.vsp-social-youtube:hover{background:#FF0000!important;border-color:#FF0000;color:#fff!important}
 .vsp-nav-container{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:10px}
 .vsp-swiper .swiper-button-prev,.vsp-swiper .swiper-button-next{position:static;width:44px;height:44px;background:var(--vsp-white);border:2px solid var(--vsp-red);border-radius:50%;color:var(--vsp-red);transition:all .3s ease;margin:0}
 .vsp-swiper .swiper-button-prev:hover,.vsp-swiper .swiper-button-next:hover{background:var(--vsp-red);color:var(--vsp-white)}
@@ -394,7 +441,23 @@ function vsp_shortcode($atts) {
                                     </div>
                                 <?php endif; ?>
 
-                                <a href="<?php echo esc_url(get_permalink()); ?>" class="vsp-read-more">Read More</a>
+                                <?php
+                                // Social icons — only shown if at least one account is set
+                                $social_facebook  = get_post_meta(get_the_ID(), '_vsp_social_facebook',  true);
+                                $social_instagram = get_post_meta(get_the_ID(), '_vsp_social_instagram', true);
+                                $social_twitter   = get_post_meta(get_the_ID(), '_vsp_social_twitter',   true);
+                                $social_linkedin  = get_post_meta(get_the_ID(), '_vsp_social_linkedin',  true);
+                                $social_youtube   = get_post_meta(get_the_ID(), '_vsp_social_youtube',   true);
+                                $has_social = ($social_facebook || $social_instagram || $social_twitter || $social_linkedin || $social_youtube);
+                                if ($has_social) : ?>
+                                <div class="vsp-social-links">
+                                    <?php if ($social_facebook)  : ?><a href="<?php echo esc_url($social_facebook);  ?>" target="_blank" rel="noopener noreferrer" class="vsp-social-icon vsp-social-facebook"  aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><?php endif; ?>
+                                    <?php if ($social_instagram) : ?><a href="<?php echo esc_url($social_instagram); ?>" target="_blank" rel="noopener noreferrer" class="vsp-social-icon vsp-social-instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><?php endif; ?>
+                                    <?php if ($social_twitter)   : ?><a href="<?php echo esc_url($social_twitter);   ?>" target="_blank" rel="noopener noreferrer" class="vsp-social-icon vsp-social-twitter"   aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a><?php endif; ?>
+                                    <?php if ($social_linkedin)  : ?><a href="<?php echo esc_url($social_linkedin);  ?>" target="_blank" rel="noopener noreferrer" class="vsp-social-icon vsp-social-linkedin"  aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a><?php endif; ?>
+                                    <?php if ($social_youtube)   : ?><a href="<?php echo esc_url($social_youtube);   ?>" target="_blank" rel="noopener noreferrer" class="vsp-social-icon vsp-social-youtube"   aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a><?php endif; ?>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
