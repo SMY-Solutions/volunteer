@@ -202,19 +202,110 @@ add_action('admin_enqueue_scripts', 'vsp_admin_styles');
 function vsp_frontend_assets() {
     // Font Awesome
     wp_enqueue_style('vsp-fontawesome', VSP_FA_URL, array(), '6.5.1');
-    
-    // Plugin stylesheet (proper enqueue as fallback)
-    wp_enqueue_style('vsp-style', VSP_PLUGIN_URL . 'public/css/spotlight-style.css', array(), VSP_VERSION);
 
-    // Swiper CSS & JS
-    wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0');
-    wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true);
+    // Swiper CSS & JS (use unique handles to avoid conflicts with other plugins)
+    if ( ! wp_style_is( 'swiper-css', 'registered' ) ) {
+        wp_register_style( 'swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), '11.0.0' );
+    }
+    wp_enqueue_style( 'swiper-css' );
+
+    if ( ! wp_script_is( 'swiper-js', 'registered' ) ) {
+        wp_register_script( 'swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11.0.0', true );
+    }
+    wp_enqueue_script( 'swiper-js' );
 }
 add_action('wp_enqueue_scripts', 'vsp_frontend_assets', 20);
 
 /**
  * ========================================
- * 7. SHORTCODE [volunteer_spotlight]
+ * 7. INLINE CSS HELPER
+ * ========================================
+ */
+function vsp_get_inline_css() {
+    return '
+:root{--vsp-red:#E53935;--vsp-red-dark:#C62828;--vsp-red-light:#FFEBEE;--vsp-white:#FFFFFF;--vsp-gray-light:#F5F5F5;--vsp-gray:#757575;--vsp-dark:#212121;--vsp-card-radius:16px;--vsp-shadow:0 8px 30px rgba(0,0,0,.08);--vsp-shadow-hover:0 12px 40px rgba(0,0,0,.12);--vsp-font:"Segoe UI",-apple-system,BlinkMacSystemFont,sans-serif}
+.vsp-slider-wrapper{max-width:1200px;margin:40px auto;padding:20px 10px;font-family:var(--vsp-font)}
+.vsp-swiper{padding-bottom:60px!important;overflow:hidden}
+.vsp-card{position:relative;background:var(--vsp-white);border-radius:var(--vsp-card-radius);box-shadow:var(--vsp-shadow);overflow:hidden;transition:box-shadow .3s ease,transform .3s ease}
+.vsp-card:hover{box-shadow:var(--vsp-shadow-hover);transform:translateY(-4px)}
+.vsp-card-inner{display:flex!important;flex-direction:row!important;min-height:350px}
+.vsp-decor-dots{position:absolute;top:20px;right:20px;width:60px;height:60px;z-index:2;background-image:radial-gradient(circle,var(--vsp-red) 1.5px,transparent 1.5px);background-size:10px 10px;opacity:.35}
+.vsp-decor-triangle{position:absolute;bottom:0;right:0;width:120px;height:120px;z-index:1;overflow:hidden}
+.vsp-decor-triangle::before{content:"";position:absolute;bottom:-30px;right:-30px;width:120px;height:120px;border:3px solid var(--vsp-red-light);transform:rotate(45deg);opacity:.5}
+.vsp-decor-triangle::after{content:"";position:absolute;bottom:-15px;right:-15px;width:90px;height:90px;border:3px solid var(--vsp-red-light);transform:rotate(45deg);opacity:.3}
+.vsp-card-photo{position:relative;flex:0 0 45%!important;max-width:45%!important;overflow:hidden;min-height:300px}
+.vsp-card-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.vsp-card:hover .vsp-card-photo img{transform:scale(1.05)}
+.vsp-photo-placeholder{width:100%;height:100%;min-height:300px;display:flex;align-items:center;justify-content:center;background:var(--vsp-gray-light);color:#ccc}
+.vsp-photo-placeholder svg{width:80px;height:80px}
+.vsp-heart-icon{position:absolute;top:16px;left:16px;width:40px;height:40px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--vsp-red);box-shadow:0 2px 10px rgba(0,0,0,.1);z-index:3;animation:vsp-pulse 2s ease-in-out infinite}
+@keyframes vsp-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.vsp-card-content{flex:1!important;padding:35px 30px 30px;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
+.vsp-badge{display:inline-flex!important;align-items:center;gap:6px;background:var(--vsp-red)!important;color:var(--vsp-white)!important;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;width:fit-content;margin-bottom:16px;letter-spacing:.3px}
+.vsp-badge-star{font-size:14px}
+.vsp-name{font-size:28px!important;font-weight:800!important;color:var(--vsp-dark)!important;margin:0 0 6px!important;line-height:1.2;letter-spacing:-.5px}
+.vsp-designation{font-size:16px;font-weight:600;color:var(--vsp-red)!important;margin:0 0 16px!important;letter-spacing:.2px}
+.vsp-description{font-size:14px;line-height:1.7;color:var(--vsp-gray);margin-bottom:20px;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+.vsp-description p{margin:0 0 8px}
+.vsp-read-more{display:inline-flex!important;align-items:center;gap:6px;background:var(--vsp-red)!important;color:var(--vsp-white)!important;padding:10px 24px!important;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none!important;width:fit-content;transition:all .3s ease;cursor:pointer;border:2px solid var(--vsp-red)}
+.vsp-read-more:hover{background:var(--vsp-red-dark)!important;border-color:var(--vsp-red-dark);transform:translateX(4px);color:var(--vsp-white)!important;text-decoration:none!important}
+.vsp-read-more::after{content:"→";transition:transform .3s ease}
+.vsp-read-more:hover::after{transform:translateX(4px)}
+.vsp-nav-container{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:10px}
+.vsp-swiper .swiper-button-prev,.vsp-swiper .swiper-button-next{position:static;width:44px;height:44px;background:var(--vsp-white);border:2px solid var(--vsp-red);border-radius:50%;color:var(--vsp-red);transition:all .3s ease;margin:0}
+.vsp-swiper .swiper-button-prev:hover,.vsp-swiper .swiper-button-next:hover{background:var(--vsp-red);color:var(--vsp-white)}
+.vsp-swiper .swiper-button-prev::after,.vsp-swiper .swiper-button-next::after{font-size:16px;font-weight:bold}
+.vsp-swiper .swiper-pagination{position:static;display:flex;gap:8px;justify-content:center}
+.vsp-swiper .swiper-pagination-bullet{width:10px;height:10px;background:#ddd;opacity:1;transition:all .3s ease}
+.vsp-swiper .swiper-pagination-bullet-active{background:var(--vsp-red);width:28px;border-radius:5px}
+.vsp-no-results{text-align:center;padding:40px;color:var(--vsp-gray);font-family:var(--vsp-font);font-size:16px}
+.vsp-swiper .swiper-slide{opacity:.4;transition:opacity .4s ease}
+.vsp-swiper .swiper-slide-active{opacity:1}
+.vsp-card::after{content:"";position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--vsp-red),var(--vsp-red-dark));opacity:0;transition:opacity .3s ease}
+.vsp-card:hover::after{opacity:1}
+@media(max-width:768px){.vsp-card-inner{flex-direction:column!important;min-height:auto}.vsp-card-photo{flex:none!important;max-width:100%!important;height:280px;min-height:280px}.vsp-card-content{padding:24px 20px}.vsp-name{font-size:22px!important}.vsp-designation{font-size:14px}.vsp-description{-webkit-line-clamp:4}.vsp-decor-dots{display:none}.vsp-slider-wrapper{padding:10px 5px;margin:20px auto}}
+@media(max-width:480px){.vsp-card-photo{height:220px;min-height:220px}.vsp-card-content{padding:20px 16px}.vsp-name{font-size:20px!important}.vsp-badge{font-size:11px;padding:5px 12px}.vsp-read-more{padding:8px 18px!important;font-size:13px}.vsp-swiper .swiper-button-prev,.vsp-swiper .swiper-button-next{width:36px;height:36px}.vsp-swiper .swiper-button-prev::after,.vsp-swiper .swiper-button-next::after{font-size:13px}}
+';
+}
+
+/**
+ * ========================================
+ * 8. INLINE JS HELPER
+ * ========================================
+ */
+function vsp_get_inline_js() {
+    return '
+document.addEventListener("DOMContentLoaded", function() {
+    var settings = window.vspSettings || {};
+    var autoplay = settings.autoplay !== false;
+    var speed = settings.speed || 4000;
+    var swiperConfig = {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 30,
+        grabCursor: true,
+        speed: 600,
+        pagination: { el: ".vsp-pagination", clickable: true },
+        navigation: { nextEl: ".vsp-nav-next", prevEl: ".vsp-nav-prev" },
+        keyboard: { enabled: true, onlyInViewport: true }
+    };
+    if (autoplay) {
+        swiperConfig.autoplay = { delay: speed, disableOnInteraction: false, pauseOnMouseEnter: true };
+    }
+    if (typeof Swiper !== "undefined") {
+        new Swiper(".vsp-swiper", swiperConfig);
+    } else {
+        setTimeout(function() {
+            if (typeof Swiper !== "undefined") { new Swiper(".vsp-swiper", swiperConfig); }
+        }, 1500);
+    }
+});
+';
+}
+
+/**
+ * ========================================
+ * 9. SHORTCODE [volunteer_spotlight]
  * ========================================
  */
 function vsp_shortcode($atts) {
@@ -247,12 +338,9 @@ function vsp_shortcode($atts) {
     }
 
     ob_start();
-    
-    // Inline the CSS using file_get_contents (reliable, unlike PHP include)
-    $css_file = VSP_PLUGIN_DIR . 'public/css/spotlight-style.css';
-    if (file_exists($css_file)) {
-        echo '<style id="vsp-inline-styles">' . file_get_contents($css_file) . '</style>';  // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-    }
+
+    // Hardcoded inline CSS — zero file-path dependency
+    echo '<style id="vsp-inline-styles">' . vsp_get_inline_css() . '</style>';
     ?>
     <div class="vsp-slider-wrapper">
         <div class="swiper vsp-swiper">
@@ -323,16 +411,11 @@ function vsp_shortcode($atts) {
         </div>
     </div>
     <?php
-    // Inline the JS — note: spotlight-script.js already has its own DOMContentLoaded wrapper
-    $js_file = VSP_PLUGIN_DIR . 'public/js/spotlight-script.js';
+    // Hardcoded inline JS — zero file-path dependency
     ?>
     <script type="text/javascript">
         window.vspSettings = <?php echo json_encode($settings); ?>;
-        <?php
-        if (file_exists($js_file)) {
-            echo file_get_contents($js_file); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-        }
-        ?>
+        <?php echo vsp_get_inline_js(); ?>
     </script>
     <?php
     wp_reset_postdata();
