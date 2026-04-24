@@ -3,7 +3,7 @@
 ![WordPress](https://img.shields.io/badge/WordPress-5.0%2B-blue?logo=wordpress)
 ![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple?logo=php)
 ![License](https://img.shields.io/badge/License-GPLv2-green)
-![Version](https://img.shields.io/badge/Version-1.3.0-red)
+![Version](https://img.shields.io/badge/Version-1.4.0-red)
 
 **Showcase your amazing volunteers with beautiful, professional spotlight cards displayed in a responsive slider.**
 
@@ -16,9 +16,10 @@ Built for [Brooklyn Emerge](https://brooklynemerge.com) — a community-focused 
 - 🎨 **Beautiful Card Design** — Modern, clean cards with photo, name, designation & description
 - 🎠 **Smooth Slider** — Powered by Swiper.js with autoplay, navigation arrows & pagination dots
 - ❤️ **Decorative Accents** — Heart icon overlay, dot patterns & geometric shapes
+- 🌐 **Social Profile Icons** — Per-volunteer Facebook, Instagram, X/Twitter, LinkedIn & YouTube icons
 - 📱 **Fully Responsive** — Looks great on desktop, tablet & mobile
 - ⚡ **Lightweight** — CSS & JS only load on pages where the shortcode is used
-- 🛠️ **Easy Admin Panel** — Simple post editor with name, designation, photo & description fields
+- 🛠️ **Easy Admin Panel** — Simple post editor with name, designation, photo, description & social links
 - 🔒 **Secure** — Nonce verification, data sanitization & directory browsing protection
 - 🧹 **Clean Uninstall** — Removes all data when the plugin is deleted
 
@@ -34,7 +35,7 @@ Built for [Brooklyn Emerge](https://brooklynemerge.com) — a community-focused 
 | **Name** | Large, bold heading |
 | **Designation** | Red subtitle text (role / title) |
 | **Description** | Volunteer's story or impact quote |
-| **Read More** | Red button with arrow animation |
+| **Social Icons** | Facebook, Instagram, X/Twitter, LinkedIn, YouTube — shown only if added |
 | **Decorations** | Dot pattern & geometric triangle accents |
 
 ---
@@ -70,6 +71,7 @@ Built for [Brooklyn Emerge](https://brooklynemerge.com) — a community-focused 
 | **Designation** | Custom "Designation / Role" field |
 | **Description** | Rich text editor in the meta box |
 | **Photo** | "Set featured image" in the right sidebar |
+| **Social Links** | Facebook, Instagram, X/Twitter, LinkedIn, YouTube URL fields |
 
 4. Click **Publish**
 
@@ -136,6 +138,12 @@ volunteer-spotlight/
 ---
 
 ## 📝 Changelog
+
+### v1.4.0 — Social Profiles
+- **NEW: Social Profiles widget** — per-volunteer Facebook, Instagram, X/Twitter, LinkedIn & YouTube URL fields in the admin panel
+- Social icons appear on the card where the Read More button was — only if at least one account is set, blank otherwise
+- Each icon lights up with its platform brand color on hover with a subtle lift animation
+- **Removed Read More button** from the frontend card
 
 ### v1.3.0 — Stable Release
 - **Hardcoded inline CSS & JS** — Zero file-path dependency; styles always render regardless of server folder name

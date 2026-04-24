@@ -5,7 +5,7 @@ Designer: Muhammad Mehdi
 Tags: volunteer, spotlight, slider, shortcode, nonprofit
 Requires at least: 5.0
 Tested up to: 6.7
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -21,6 +21,8 @@ Volunteer Spotlight lets you create beautiful, professional volunteer highlight 
 * Custom Post Type for managing volunteers
 * Easy-to-use admin interface
 * Beautiful card design with photo, name, designation, and description
+* Social profile icons (Facebook, Instagram, X/Twitter, LinkedIn, YouTube) per volunteer
+* Social icons displayed on card only when accounts are added — blank otherwise
 * Responsive Swiper.js slider
 * Shortcode with customizable options
 * Fully responsive and mobile-friendly
@@ -60,6 +62,13 @@ Yes! Use the shortcode `[volunteer_spotlight]` on as many pages as you like.
 Use the speed attribute: `[volunteer_spotlight speed="6000"]` (value in milliseconds).
 
 == Changelog ==
+
+= 1.4.0 =
+* NEW: Social Profiles widget in the admin panel (Facebook, Instagram, X/Twitter, LinkedIn, YouTube)
+* Social media icons now appear on the spotlight card in place of the Read More button
+* Icons only display if at least one social account URL is entered — blank otherwise
+* Each icon displays with platform brand color on hover with lift animation
+* Removed Read More button from the frontend card
 
 = 1.3.0 =
 * Hardcoded inline CSS and JS for zero file-path dependency (fixes 404 on server)
