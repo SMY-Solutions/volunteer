@@ -3,7 +3,7 @@
  * Plugin Name: Volunteer Spotlight
  * Plugin URI: https://smysolutions.us/
  * Description: Showcase your amazing volunteers with beautiful spotlight cards displayed in a slider. Use shortcode [volunteer_spotlight] to display.
- * Version: 1.2.0
+ * Version: 1.3.0
  * Author: Muhammad Mehdi
  * License: GPL v2 or later
  * Text Domain: volunteer-spotlight
@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('VSP_VERSION', '1.2.0');
+define('VSP_VERSION', '1.3.0');
 define('VSP_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('VSP_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('VSP_FA_URL', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
