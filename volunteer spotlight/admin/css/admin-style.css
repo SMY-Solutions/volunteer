@@ -1,0 +1,42 @@
+/**
+ * Volunteer Spotlight - Admin Styles
+ */
+
+.vsp-admin-fields {
+    padding: 15px 0;
+}
+
+.vsp-field-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.vsp-field-group input[type="text"] {
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #c3c4c7;
+    border-radius: 6px;
+    transition: border-color 0.2s;
+}
+
+.vsp-field-group input[type="text"]:focus {
+    border-color: #e53935;
+    box-shadow: 0 0 0 1px #e53935;
+    outline: none;
+}
+
+.vsp-field-group .description {
+    color: #646970;
+    font-style: italic;
+    margin-top: 6px;
+}
+
+/* Column styles */
+.column-vsp_photo {
+    width: 60px !important;
+}
+
+.column-vsp_designation {
+    width: 200px;
+}
